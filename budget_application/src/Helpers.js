@@ -45,3 +45,35 @@ export const createExpense = ({name, amount, budgetId}) =>{
 
     
 }
+
+//Format curr
+
+export const formatCurrency = (amt) => {
+    return amt.toLocaleString(undefined, {
+        style: "currency", 
+        currency: "USD"
+
+    })
+
+}
+
+export const calculateSpentByBudget = (budgetId) => {
+    const expenses = fetchData("expenses") ?? [];
+    const budgetSpent = expenses.reduce((acc, expense) =>
+    {
+        //check for if expense.id is equal to the passed in id
+        if(expense.budgetId != budgetId) return acc
+
+        //add curr to total
+        return acc += expense.amount
+
+    }, 0)
+    return budgetSpent;
+}
+
+export const percentage = (amt) =>{
+    return amt.toLocaleString(undefined, {
+        style: "percent",
+        minimumFractionDigits: 0
+    })
+}
